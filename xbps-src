@@ -883,7 +883,7 @@ case "$XBPS_TARGET" in
         bulk_update
         ;;
     update-sys)
-        bulk_update -I
+        $XBPS_LIBEXECDIR/update-sys
         ;;
     update-check)
         $XBPS_LIBEXECDIR/update-check
