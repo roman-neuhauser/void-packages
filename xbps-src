@@ -288,14 +288,6 @@ exit_func() {
     exit 2
 }
 
-read_pkg() {
-    if [ -z "${XBPS_TARGET_PKG}" ]; then
-        [ ! -r ./template ] && msg_error "xbps-src: missing build template in $(pwd).\n"
-        XBPS_TARGET_PKG=${PWD##*/}
-    fi
-    setup_pkg "$XBPS_TARGET_PKG" "$XBPS_CROSS_BUILD" "$1"
-}
-
 setup_distfiles_mirror() {
     local mirror scheme path
 

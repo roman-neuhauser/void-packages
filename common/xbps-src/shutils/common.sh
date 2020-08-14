@@ -657,3 +657,11 @@ setup_pkg() {
         . $XBPS_BUILDHELPERDIR/${f}.sh
     done
 }
+
+read_pkg() {
+    if [ -z "${XBPS_TARGET_PKG}" ]; then
+        [ ! -r ./template ] && msg_error "xbps-src: missing build template in $(pwd).\n"
+        XBPS_TARGET_PKG=${PWD##*/}
+    fi
+    setup_pkg "$XBPS_TARGET_PKG" "$XBPS_CROSS_BUILD" "$1"
+}
