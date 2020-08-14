@@ -224,12 +224,6 @@ $(print_cross_targets)
 _EOF
 }
 
-masterdir_zap() {
-    rm -rf "$XBPS_MASTERDIR"
-    mkdir -p "$XBPS_MASTERDIR"
-    msg_normal "xbps-src: $XBPS_MASTERDIR masterdir cleaned up.\n"
-}
-
 exit_func() {
     wait
     if [ "$sourcepkg" ]; then
@@ -898,7 +892,7 @@ case "$XBPS_TARGET" in
         update_hash_cache
         ;;
     zap)
-        masterdir_zap
+        $XBPS_LIBEXECDIR/zap
         ;;
     *)
         msg_red "xbps-src: invalid target $XBPS_TARGET.\n"

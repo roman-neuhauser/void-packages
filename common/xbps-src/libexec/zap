@@ -1,0 +1,8 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 et:
+
+source $XBPS_SHUTILSDIR/common.sh
+
+rm -rf "$XBPS_MASTERDIR"
+mkdir -p "$XBPS_MASTERDIR"
+msg_normal "xbps-src: $XBPS_MASTERDIR masterdir cleaned up.\n"
