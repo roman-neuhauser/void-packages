@@ -889,7 +889,7 @@ case "$XBPS_TARGET" in
         update_check
         ;;
     update-hash-cache)
-        update_hash_cache
+        $XBPS_LIBEXECDIR/update-hash-cache
         ;;
     zap)
         $XBPS_LIBEXECDIR/zap
