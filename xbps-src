@@ -877,7 +877,7 @@ case "$XBPS_TARGET" in
         bulk_build -I
         ;;
     sort-dependencies)
-        bulk_sortdeps ${@/$XBPS_TARGET/}
+        $XBPS_LIBEXECDIR/sort-dependencies ${@/$XBPS_TARGET/}
         ;;
     update-bulk)
         $XBPS_LIBEXECDIR/update-bulk
