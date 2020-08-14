@@ -1,11 +1,15 @@
+#!/bin/bash
 # vim: set ts=4 sw=4 et:
 
-update_check() {
-    local i p url pkgurlname rx found_version consider
-    local update_override=$XBPS_SRCPKGDIR/$XBPS_TARGET_PKG/update
-    local original_pkgname=$pkgname
-    local urlpfx urlsfx
-    local -A fetchedurls
+source $XBPS_SHUTILSDIR/common.sh
+
+    read_pkg ignore-problems
+
+    declare i p url pkgurlname rx found_version consider
+    declare update_override=$XBPS_SRCPKGDIR/$XBPS_TARGET_PKG/update
+    declare original_pkgname=$pkgname
+    declare urlpfx urlsfx
+    declare -A fetchedurls
 
     if [ -r $update_override ]; then
         . $update_override
@@ -16,7 +20,7 @@ update_check() {
 
     if ! type curl >/dev/null 2>&1; then
         echo "ERROR: cannot find \`curl' executable!"
-        return 1
+        exit 1
     fi
 
     export LC_ALL=C
@@ -195,4 +199,3 @@ update_check() {
             fi
         fi
     done
-}
