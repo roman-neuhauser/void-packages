@@ -247,20 +247,6 @@ check_reqhost_utils() {
     [ "$broken" ] && exit 1
 }
 
-check_build_requirements() {
-    case "$XBPS_TARGET" in
-        *bootstrap*) : ;;
-        *)
-            xbps-uhelper cmpver "$XBPS_VERSION" "$XBPS_VERSION_REQ"
-            if [ $? -eq 255 ]; then
-                echo "ERROR: requires xbps>=${XBPS_VERSION_REQ}" 1>&2
-                echo "Bootstrap packages must be updated with 'xbps-src bootstrap-update'" 1>&2
-                exit 1
-            fi
-        ;;
-    esac
-}
-
 chroot_check() {
     if [ -f $XBPS_MASTERDIR/.xbps_chroot_init -o "$XBPS_CHROOT_CMD" = "ethereal" ]; then
         export CHROOT_READY=1
@@ -688,7 +674,17 @@ if [ "$XBPS_DISTCC" ]; then
     mkdir -p $DISTCC_DIR
 fi
 
-check_build_requirements
+case "$XBPS_TARGET" in
+    *bootstrap*) : ;;
+    *)
+        xbps-uhelper cmpver "$XBPS_VERSION" "$XBPS_VERSION_REQ"
+        if [ $? -eq 255 ]; then
+            echo "ERROR: requires xbps>=${XBPS_VERSION_REQ}" 1>&2
+            echo "Bootstrap packages must be updated with 'xbps-src bootstrap-update'" 1>&2
+            exit 1
+        fi
+    ;;
+esac
 
 if [ -z "$IN_CHROOT" ]; then
     trap 'exit_func' INT TERM
