@@ -248,20 +248,17 @@ check_reqhost_utils() {
 }
 
 check_build_requirements() {
-    local found
-
     case "$XBPS_TARGET" in
-        *bootstrap*) found=1;;
-        *) ;;
+        *bootstrap*) : ;;
+        *)
+            xbps-uhelper cmpver "$XBPS_VERSION" "$XBPS_VERSION_REQ"
+            if [ $? -eq 255 ]; then
+                echo "ERROR: requires xbps>=${XBPS_VERSION_REQ}" 1>&2
+                echo "Bootstrap packages must be updated with 'xbps-src bootstrap-update'" 1>&2
+                exit 1
+            fi
+        ;;
     esac
-    if [ -z "$found" ]; then
-        xbps-uhelper cmpver "$XBPS_VERSION" "$XBPS_VERSION_REQ"
-        if [ $? -eq 255 ]; then
-            echo "ERROR: requires xbps>=${XBPS_VERSION_REQ}" 1>&2
-            echo "Bootstrap packages must be updated with 'xbps-src bootstrap-update'" 1>&2
-            exit 1
-        fi
-    fi
 }
 
 chroot_check() {
