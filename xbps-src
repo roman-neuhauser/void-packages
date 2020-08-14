@@ -766,7 +766,7 @@ case "$XBPS_TARGET" in
         $XBPS_QUERY_CMD -l
         ;;
     purge-distfiles)
-        purge_distfiles
+        $XBPS_LIBEXECDIR/purge-distfiles
         ;;
     show)
         $XBPS_LIBEXECDIR/show

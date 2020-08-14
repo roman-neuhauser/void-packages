@@ -1,9 +1,10 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 noet:
 # Scan srcpkgs/*/template for hashes and distfiles to determine
 # obsolete sources/by_sha256 files and their corresponding
 # sources/<pkgname>-<version> files that can be purged
 
 
-purge_distfiles() {
 	readonly HASHLEN=64
 	if [ -z "$XBPS_SRCDISTDIR" ]; then
 		msg_error "The variable \$XBPS_SRCDISTDIR is not set."
@@ -82,4 +83,3 @@ purge_distfiles() {
 		( IFS="|"; for f in ${inodes[$inode]}; do rm -vf "$f"; rmdir "${f%/*}" 2>/dev/null; done )
 	done
 	echo "Done."
-}
