@@ -1,4 +1,7 @@
+#!/bin/bash
 # vim: set ts=4 sw=4 et:
+
+source $XBPS_SHUTILSDIR/common.sh
 
 consistency_check_existing () {
     while IFS=" " read -r dep origname deplabel; do
@@ -62,20 +65,17 @@ consistency_check_smart () {
     done
 }
 
-consistency_check() {
-    local pkg= pkgname=
-    for pkg in "$XBPS_SRCPKGDIR"/*/template; do
-        pkg=${pkg%/*}
-        XBPS_TARGET_PKG=${pkg##*/}
-        (
-            read_pkg
-            [ "$depends" ] && printf "%s $pkgname depends\n" $depends
-            [ "$conflicts" ] && printf "%s $pkgname conflicts\n" $conflicts
-            [ -L "$XBPS_SRCPKGDIR/$XBPS_TARGET_PKG" ] && return
-            [ "$makedepends" ] && printf "%s $pkgname makedepends\n" $makedepends
-            [ "$hostmakedepends" ] && printf "%s $pkgname hostmakedepends\n" $hostmakedepends
-            [ "$checkdepends" ] && printf "%s $pkgname checkdepends\n" $checkdepends
-        )
-    done | grep -v "^virtual?" | sed "s/^[^ ]*?//" | consistency_check_existing | \
-        consistency_convert_pkgname | consistency_check_smart
-}
+for pkg in "$XBPS_SRCPKGDIR"/*/template; do
+    pkg=${pkg%/*}
+    XBPS_TARGET_PKG=${pkg##*/}
+    (
+        read_pkg
+        [ "$depends" ] && printf "%s $pkgname depends\n" $depends
+        [ "$conflicts" ] && printf "%s $pkgname conflicts\n" $conflicts
+        [ -L "$XBPS_SRCPKGDIR/$XBPS_TARGET_PKG" ] && return
+        [ "$makedepends" ] && printf "%s $pkgname makedepends\n" $makedepends
+        [ "$hostmakedepends" ] && printf "%s $pkgname hostmakedepends\n" $hostmakedepends
+        [ "$checkdepends" ] && printf "%s $pkgname checkdepends\n" $checkdepends
+    )
+done | grep -v "^virtual?" | sed "s/^[^ ]*?//" | consistency_check_existing | \
+    consistency_convert_pkgname | consistency_check_smart

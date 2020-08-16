@@ -734,7 +734,7 @@ case "$XBPS_TARGET" in
         $XBPS_REMOVE_CMD -C /dev/null -c $XBPS_HOSTDIR/repocache-${XBPS_TARGET_ARCH} -O
         ;;
     consistency-check)
-        consistency_check
+        $XBPS_LIBEXECDIR/consistency-check
         ;;
     remove-autodeps)
         $XBPS_LIBEXECDIR/remove-autodeps
