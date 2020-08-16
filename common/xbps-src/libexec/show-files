@@ -1,0 +1,8 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 et:
+
+source $XBPS_SHUTILSDIR/common.sh
+source $XBPS_SHUTILSDIR/show.sh
+
+read_pkg ignore-problems
+[ -d ${PKGDESTDIR} ] && find ${PKGDESTDIR} -print

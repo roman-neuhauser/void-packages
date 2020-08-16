@@ -64,10 +64,6 @@ show_pkg() {
     return 0
 }
 
-show_pkg_files() {
-    [ -d ${PKGDESTDIR} ] && find ${PKGDESTDIR} -print
-}
-
 show_avail() {
     check_pkg_arch "$XBPS_CROSS_BUILD" 2>/dev/null
 }

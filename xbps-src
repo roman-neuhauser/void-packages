@@ -777,8 +777,7 @@ case "$XBPS_TARGET" in
         show_avail
         ;;
     show-files)
-        read_pkg ignore-problems
-        show_pkg_files
+        $XBPS_LIBEXECDIR/show-files
         ;;
     show-deps)
         $XBPS_LIBEXECDIR/show-deps
