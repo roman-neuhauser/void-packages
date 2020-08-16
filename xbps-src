@@ -769,8 +769,7 @@ case "$XBPS_TARGET" in
         purge_distfiles
         ;;
     show)
-        read_pkg ignore-problems
-        show_pkg $XBPS_PRINT_VARIABLES
+        $XBPS_LIBEXECDIR/show
         ;;
     show-avail)
         $XBPS_LIBEXECDIR/show-avail

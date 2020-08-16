@@ -1,0 +1,66 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 et:
+
+source $XBPS_SHUTILSDIR/common.sh
+
+read_pkg ignore-problems
+
+echo "pkgname:	$pkgname"
+echo "version:	$version"
+echo "revision:	$revision"
+for i in ${distfiles}; do
+    [ -n "$i" ] && echo "distfiles:	$i"
+done
+for i in ${checksum}; do
+    [ -n "$i" ] && echo "checksum:	$i"
+done
+for i in ${archs}; do
+    [ -n "$i" ] && echo "archs:		$i"
+done
+echo "maintainer:	$maintainer"
+[ -n "$homepage" ] && echo "Upstream URL:	$homepage"
+[ -n "$license" ] && echo "License(s):	$license"
+[ -n "$changelog" ] && echo "Changelog:	$changelog"
+[ -n "$build_style" ] && echo "build_style:	$build_style"
+for i in $build_helper; do
+    [ -n "$i" ] && echo "build_helper:  $i"
+done
+for i in ${configure_args}; do
+    [ -n "$i" ] && echo "configure_args:	$i"
+done
+echo "short_desc:	$short_desc"
+for i in ${subpackages}; do
+    [ -n "$i" ] && echo "subpackages:	$i"
+done
+set -f
+for i in ${conf_files}; do
+    [ -n "$i" ] && echo "conf_files:	$i"
+done
+set +f
+for i in ${replaces}; do
+    [ -n "$i" ] && echo "replaces:	$i"
+done
+for i in ${provides}; do
+    [ -n "$i" ] && echo "provides:	$i"
+done
+for i in ${conflicts}; do
+    [ -n "$i" ] && echo "conflicts:	$i"
+done
+OIFS="$IFS"
+IFS=','
+for var in $XBPS_PRINT_VARIABLES; do
+    IFS=$OIFS
+    if [ ${var} != ${var/'*'} ]
+    then
+        var="${var/'*'}"
+        [ -n "${!var}" ] && echo "$var:	${!var//$'\n'/' '}"
+    else
+        for val in ${!var}; do
+            [ -n "$val" ] && echo "$var:	$val"
+        done
+    fi
+done
+IFS="$OIFS"
+[ -n "$long_desc" ] && echo "long_desc: $long_desc"
+
+exit 0
