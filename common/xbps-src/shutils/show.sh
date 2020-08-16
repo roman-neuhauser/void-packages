@@ -139,7 +139,3 @@ show_pkg_build_options() {
         fi
     done
 }
-
-show_pkg_shlib_provides() {
-    [ -f "${PKGDESTDIR}/shlib-provides" ] && cat ${PKGDESTDIR}/shlib-provides
-}

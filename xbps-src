@@ -855,8 +855,7 @@ case "$XBPS_TARGET" in
         show_pkg_build_options
         ;;
     show-shlib-provides)
-        read_pkg ignore-problems
-        show_pkg_shlib_provides
+        $XBPS_LIBEXECDIR/show-shlib-provides
         ;;
     show-shlib-requires)
         $XBPS_LIBEXECDIR/show-shlib-requires
