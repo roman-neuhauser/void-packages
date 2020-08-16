@@ -789,8 +789,7 @@ case "$XBPS_TARGET" in
         show_pkg_build_deps
         ;;
     show-hostmakedepends)
-        read_pkg ignore-problems
-        show_pkg_hostmakedepends
+        $XBPS_LIBEXECDIR/show-hostmakedepends
         ;;
     show-makedepends)
         $XBPS_LIBEXECDIR/show-makedepends
