@@ -859,8 +859,7 @@ case "$XBPS_TARGET" in
         show_pkg_shlib_provides
         ;;
     show-shlib-requires)
-        read_pkg ignore-problems
-        show_pkg_shlib_requires
+        $XBPS_LIBEXECDIR/show-shlib-requires
         ;;
     show-var)
         for f in ${XBPS_COMMONDIR}/environment/setup/*.sh; do

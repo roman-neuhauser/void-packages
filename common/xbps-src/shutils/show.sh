@@ -143,7 +143,3 @@ show_pkg_build_options() {
 show_pkg_shlib_provides() {
     [ -f "${PKGDESTDIR}/shlib-provides" ] && cat ${PKGDESTDIR}/shlib-provides
 }
-
-show_pkg_shlib_requires() {
-    [ -f "${PKGDESTDIR}/shlib-requires" ] && cat ${PKGDESTDIR}/shlib-requires
-}
