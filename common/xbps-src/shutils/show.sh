@@ -64,10 +64,6 @@ show_pkg() {
     return 0
 }
 
-show_pkg_deps() {
-    [ -f "${PKGDESTDIR}/rdeps" ] && cat ${PKGDESTDIR}/rdeps
-}
-
 show_pkg_files() {
     [ -d ${PKGDESTDIR} ] && find ${PKGDESTDIR} -print
 }

@@ -781,8 +781,7 @@ case "$XBPS_TARGET" in
         show_pkg_files
         ;;
     show-deps)
-        read_pkg ignore-problems
-        show_pkg_deps
+        $XBPS_LIBEXECDIR/show-deps
         ;;
     show-build-deps)
         $XBPS_LIBEXECDIR/show-build-deps
