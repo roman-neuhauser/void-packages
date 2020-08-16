@@ -880,7 +880,7 @@ case "$XBPS_TARGET" in
         bulk_sortdeps ${@/$XBPS_TARGET/}
         ;;
     update-bulk)
-        bulk_update
+        $XBPS_LIBEXECDIR/update-bulk
         ;;
     update-sys)
         $XBPS_LIBEXECDIR/update-sys
