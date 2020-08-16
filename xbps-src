@@ -871,7 +871,7 @@ case "$XBPS_TARGET" in
         echo $value
         ;;
     show-repo-updates)
-        bulk_build
+        $XBPS_LIBEXECDIR/show-repo-updates
         ;;
     show-sys-updates)
         $XBPS_LIBEXECDIR/show-sys-updates
