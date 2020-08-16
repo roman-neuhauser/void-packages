@@ -116,10 +116,6 @@ show_pkg_hostmakedepends() {
     show_pkg_build_depends "${hostmakedepends}"
 }
 
-show_pkg_makedepends() {
-    show_pkg_build_depends "${makedepends}"
-}
-
 show_pkg_build_options() {
     local f opt desc
 

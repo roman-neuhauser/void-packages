@@ -793,8 +793,7 @@ case "$XBPS_TARGET" in
         show_pkg_hostmakedepends
         ;;
     show-makedepends)
-        read_pkg ignore-problems
-        show_pkg_makedepends
+        $XBPS_LIBEXECDIR/show-makedepends
         ;;
     show-pkg-var-dump)
         $XBPS_LIBEXECDIR/show-pkg-var-dump
