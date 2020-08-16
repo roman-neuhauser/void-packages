@@ -759,8 +759,7 @@ case "$XBPS_TARGET" in
         fi
         ;;
     remove|remove-destdir)
-        read_pkg
-        remove_pkg $XBPS_CROSS_BUILD
+        $XBPS_LIBEXECDIR/remove
         ;;
     list)
         $XBPS_LIBEXECDIR/list
