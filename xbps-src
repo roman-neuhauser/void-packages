@@ -763,7 +763,7 @@ case "$XBPS_TARGET" in
         remove_pkg $XBPS_CROSS_BUILD
         ;;
     list)
-        $XBPS_QUERY_CMD -l
+        $XBPS_LIBEXECDIR/list
         ;;
     purge-distfiles)
         $XBPS_LIBEXECDIR/purge-distfiles
