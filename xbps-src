@@ -773,8 +773,7 @@ case "$XBPS_TARGET" in
         show_pkg $XBPS_PRINT_VARIABLES
         ;;
     show-avail)
-        read_pkg &>/dev/null
-        show_avail
+        $XBPS_LIBEXECDIR/show-avail
         ;;
     show-files)
         $XBPS_LIBEXECDIR/show-files

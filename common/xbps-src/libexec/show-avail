@@ -1,0 +1,9 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 et:
+
+source $XBPS_SHUTILSDIR/common.sh
+source $XBPS_SHUTILSDIR/pkgtarget.sh
+source $XBPS_SHUTILSDIR/show.sh
+
+read_pkg &>/dev/null
+show_avail
