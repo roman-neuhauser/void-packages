@@ -874,7 +874,7 @@ case "$XBPS_TARGET" in
         bulk_build
         ;;
     show-sys-updates)
-        bulk_build -I
+        $XBPS_LIBEXECDIR/show-sys-updates
         ;;
     sort-dependencies)
         $XBPS_LIBEXECDIR/sort-dependencies ${@/$XBPS_TARGET/}
