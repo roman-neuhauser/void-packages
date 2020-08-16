@@ -1,0 +1,9 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 et:
+
+source $XBPS_SHUTILSDIR/common.sh
+source $XBPS_SHUTILSDIR/build_dependencies.sh
+source $XBPS_SHUTILSDIR/show.sh
+
+read_pkg ignore-problems
+show_pkg_build_depends "${hostmakedepends} ${makedepends} $(setup_pkg_depends '' 1 1)"
