@@ -1,0 +1,35 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 et:
+
+source $XBPS_SHUTILSDIR/common.sh
+source $XBPS_SHUTILSDIR/chroot.sh
+source $XBPS_SHUTILSDIR/cross.sh
+source $XBPS_SHUTILSDIR/pkgtarget.sh
+
+if [ -z "$XBPS_TARGET_PKG" ]; then
+    if [ -n "$CHROOT_READY" -a -z "$IN_CHROOT" ]; then
+        chroot_handler remove-autodeps
+    else
+        remove_pkg_autodeps
+    fi
+    msg_normal "xbps-src: cleaning up masterdir...\n"
+    # Needed to remove Go Modules
+    [ -d "$XBPS_BUILDDIR" ] && chmod -R +wX $XBPS_BUILDDIR
+    rm -rf \
+        $XBPS_BUILDDIR \
+        $XBPS_DESTDIR
+    rm -rf $XBPS_MASTERDIR/tmp
+    mkdir -p $XBPS_MASTERDIR/tmp
+else
+    read_pkg
+    if [ -n "$CHROOT_READY" -a -z "$IN_CHROOT" ]; then
+        chroot_handler $XBPS_TARGET $XBPS_TARGET_PKG || exit $?
+    else
+        remove_pkg_wrksrc $wrksrc
+        remove_pkg_statedir
+        if declare -f do_clean >/dev/null; then
+            run_func do_clean
+        fi
+    fi
+    remove_pkg $XBPS_CROSS_BUILD
+fi
