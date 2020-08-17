@@ -730,8 +730,7 @@ case "$XBPS_TARGET" in
         fi
         ;;
     clean-repocache)
-        export XBPS_TARGET_ARCH="${XBPS_CROSS_BUILD:-$XBPS_TARGET_MACHINE}"
-        $XBPS_REMOVE_CMD -C /dev/null -c $XBPS_HOSTDIR/repocache-${XBPS_TARGET_ARCH} -O
+        $XBPS_LIBEXECDIR/clean-repocache
         ;;
     consistency-check)
         $XBPS_LIBEXECDIR/consistency-check
