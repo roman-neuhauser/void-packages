@@ -1,0 +1,14 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 et:
+
+source $XBPS_SHUTILSDIR/common.sh
+source $XBPS_SHUTILSDIR/chroot.sh
+source $XBPS_SHUTILSDIR/cross.sh
+source $XBPS_SHUTILSDIR/pkgtarget.sh
+
+if [ -n "$CHROOT_READY" -a -z "$IN_CHROOT" ]; then
+    chroot_handler bootstrap-update
+else
+    chroot_sync_repodata
+    update_base_chroot
+fi

@@ -689,12 +689,7 @@ case "$XBPS_TARGET" in
         install_base_chroot ${XBPS_TARGET_PKG:=$XBPS_MACHINE}
         ;;
     bootstrap-update)
-        if [ -n "$CHROOT_READY" -a -z "$IN_CHROOT" ]; then
-            chroot_handler bootstrap-update
-        else
-            chroot_sync_repodata
-            update_base_chroot
-        fi
+        $XBPS_LIBEXECDIR/bootstrap-update
         ;;
     chroot)
         $XBPS_LIBEXECDIR/chroot
