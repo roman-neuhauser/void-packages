@@ -697,8 +697,7 @@ case "$XBPS_TARGET" in
         fi
         ;;
     chroot)
-        chroot_sync_repodata
-        chroot_handler chroot dummy
+        $XBPS_LIBEXECDIR/chroot
         ;;
     clean)
         $XBPS_LIBEXECDIR/clean
