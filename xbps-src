@@ -660,30 +660,6 @@ fi
 # Main switch.
 #
 case "$XBPS_TARGET" in
-    binary-bootstrap)
-        $XBPS_LIBEXECDIR/binary-bootstrap
-        ;;
-    bootstrap)
-        $XBPS_LIBEXECDIR/bootstrap
-        ;;
-    bootstrap-update)
-        $XBPS_LIBEXECDIR/bootstrap-update
-        ;;
-    chroot)
-        $XBPS_LIBEXECDIR/chroot
-        ;;
-    clean)
-        $XBPS_LIBEXECDIR/clean
-        ;;
-    clean-repocache)
-        $XBPS_LIBEXECDIR/clean-repocache
-        ;;
-    consistency-check)
-        $XBPS_LIBEXECDIR/consistency-check
-        ;;
-    remove-autodeps)
-        $XBPS_LIBEXECDIR/remove-autodeps
-        ;;
     fetch|extract|patch|configure|build|check|install|pkg)
         if [ "$XBPS_TARGET" = "check" ]; then
             export XBPS_CHECK_PKGS=1
@@ -699,51 +675,6 @@ case "$XBPS_TARGET" in
                 $XBPS_TARGET $XBPS_CROSS_BUILD || exit $?
         fi
         ;;
-    remove|remove-destdir)
-        $XBPS_LIBEXECDIR/remove
-        ;;
-    list)
-        $XBPS_LIBEXECDIR/list
-        ;;
-    purge-distfiles)
-        $XBPS_LIBEXECDIR/purge-distfiles
-        ;;
-    show)
-        $XBPS_LIBEXECDIR/show
-        ;;
-    show-avail)
-        $XBPS_LIBEXECDIR/show-avail
-        ;;
-    show-files)
-        $XBPS_LIBEXECDIR/show-files
-        ;;
-    show-deps)
-        $XBPS_LIBEXECDIR/show-deps
-        ;;
-    show-build-deps)
-        $XBPS_LIBEXECDIR/show-build-deps
-        ;;
-    show-hostmakedepends)
-        $XBPS_LIBEXECDIR/show-hostmakedepends
-        ;;
-    show-makedepends)
-        $XBPS_LIBEXECDIR/show-makedepends
-        ;;
-    show-pkg-var-dump)
-        $XBPS_LIBEXECDIR/show-pkg-var-dump
-        ;;
-    show-pkg-var)
-        $XBPS_LIBEXECDIR/show-pkg-var
-        ;;
-    show-options)
-        $XBPS_LIBEXECDIR/show-options
-        ;;
-    show-shlib-provides)
-        $XBPS_LIBEXECDIR/show-shlib-provides
-        ;;
-    show-shlib-requires)
-        $XBPS_LIBEXECDIR/show-shlib-requires
-        ;;
     show-var)
         for f in ${XBPS_COMMONDIR}/environment/setup/*.sh; do
             source $f
@@ -752,29 +683,39 @@ case "$XBPS_TARGET" in
         eval value="\${$XBPS_TARGET_PKG}"
         echo $value
         ;;
-    show-repo-updates)
-        $XBPS_LIBEXECDIR/show-repo-updates
-        ;;
-    show-sys-updates)
-        $XBPS_LIBEXECDIR/show-sys-updates
-        ;;
-    sort-dependencies)
-        $XBPS_LIBEXECDIR/sort-dependencies ${@/$XBPS_TARGET/}
-        ;;
-    update-bulk)
-        $XBPS_LIBEXECDIR/update-bulk
-        ;;
-    update-sys)
-        $XBPS_LIBEXECDIR/update-sys
-        ;;
-    update-check)
-        $XBPS_LIBEXECDIR/update-check
-        ;;
-    update-hash-cache)
-        $XBPS_LIBEXECDIR/update-hash-cache
-        ;;
+    binary-bootstrap) ;&
+    bootstrap) ;&
+    bootstrap-update) ;&
+    chroot) ;&
+    clean) ;&
+    clean-repocache) ;&
+    consistency-check) ;&
+    remove-autodeps) ;&
+    remove|remove-destdir) ;&
+    list) ;&
+    purge-distfiles) ;&
+    show) ;&
+    show-avail) ;&
+    show-files) ;&
+    show-deps) ;&
+    show-build-deps) ;&
+    show-hostmakedepends) ;&
+    show-makedepends) ;&
+    show-pkg-var-dump) ;&
+    show-pkg-var) ;&
+    show-options) ;&
+    show-shlib-provides) ;&
+    show-shlib-requires) ;&
+    show-repo-updates) ;&
+    show-sys-updates) ;&
+    sort-dependencies) ;&
+    update-bulk) ;&
+    update-sys) ;&
+    update-check) ;&
+    update-hash-cache) ;&
     zap)
-        $XBPS_LIBEXECDIR/zap
+        shift
+        $XBPS_LIBEXECDIR/$XBPS_TARGET "$@"
         ;;
     *)
         msg_red "xbps-src: invalid target $XBPS_TARGET.\n"
