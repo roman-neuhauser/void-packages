@@ -1,0 +1,8 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 et:
+
+source $XBPS_SHUTILSDIR/common.sh
+source $XBPS_SHUTILSDIR/chroot.sh
+source $XBPS_SHUTILSDIR/cross.sh
+
+install_base_chroot ${XBPS_TARGET_PKG:=$XBPS_MACHINE}

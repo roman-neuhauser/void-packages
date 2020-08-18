@@ -661,7 +661,7 @@ fi
 #
 case "$XBPS_TARGET" in
     binary-bootstrap)
-        install_base_chroot ${XBPS_TARGET_PKG:=$XBPS_MACHINE}
+        $XBPS_LIBEXECDIR/binary-bootstrap
         ;;
     bootstrap)
         $XBPS_LIBEXECDIR/bootstrap
