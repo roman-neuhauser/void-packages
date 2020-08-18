@@ -224,12 +224,6 @@ $(print_cross_targets)
 _EOF
 }
 
-chroot_check() {
-    if [ -f $XBPS_MASTERDIR/.xbps_chroot_init -o "$XBPS_CHROOT_CMD" = "ethereal" ]; then
-        export CHROOT_READY=1
-    fi
-}
-
 check_native_arch() {
     if [ "$CHROOT_READY" ]; then
         if [ -s $XBPS_MASTERDIR/.xbps_chroot_init ]; then
