@@ -1,5 +1,28 @@
 # vim: set ts=4 sw=4 et:
 
+check_reqhost_utils() {
+    local broken
+
+    [ "$IN_CHROOT" ] && return 0
+
+    for f in ${REQHOST_UTILS}; do
+        if ! command -v ${f} &>/dev/null; then
+            echo "${f} is missing in your system, can't continue!" 1>&2
+            broken=1
+        fi
+    done
+    [ "$broken" ] && exit 1
+    [ -z "$1" ] && return 0
+
+    for f in ${REQHOST_UTILS_BOOTSTRAP}; do
+        if ! command -v ${f} &>/dev/null; then
+            echo "${f} is missing in your system, can't continue!" 1>&2
+            broken=1
+        fi
+    done
+    [ "$broken" ] && exit 1
+}
+
 run_func() {
     local func="$1" desc="$2" funcname="$3" restoretrap= logpipe= logfile= teepid=
 
