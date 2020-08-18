@@ -422,6 +422,23 @@ else
         readonly XBPS_CONFIG_FILE=$HOME/.xbps-src.conf
     fi
 fi
+
+readonly XBPS_SRCPKGDIR=$XBPS_DISTDIR/srcpkgs
+readonly XBPS_COMMONDIR=$XBPS_DISTDIR/common
+readonly XBPS_SHUTILSDIR=$XBPS_COMMONDIR/xbps-src/shutils
+readonly XBPS_TRIGGERSDIR=$XBPS_SRCPKGDIR/xbps-triggers/files
+readonly XBPS_CROSSPFDIR=$XBPS_COMMONDIR/cross-profiles
+readonly XBPS_BUILDSTYLEDIR=$XBPS_COMMONDIR/build-style
+readonly XBPS_LIBEXECDIR=$XBPS_COMMONDIR/xbps-src/libexec
+readonly XBPS_BUILDHELPERDIR=$XBPS_COMMONDIR/build-helper
+
+#
+# Read funcs from helpers
+#
+for f in ${XBPS_SHUTILSDIR}/*.sh; do
+    [ -r "$f" ] && . $f
+done
+
 # Read settings from config file
 [ -s "$XBPS_CONFIG_FILE" ] && . $XBPS_CONFIG_FILE &>/dev/null
 
@@ -519,15 +536,6 @@ if [ -z "$XBPS_ALT_REPOSITORY" ]; then
 else
     export XBPS_REPOSITORY="${XBPS_REPOSITORY}/${XBPS_ALT_REPOSITORY}"
 fi
-
-readonly XBPS_SRCPKGDIR=$XBPS_DISTDIR/srcpkgs
-readonly XBPS_COMMONDIR=$XBPS_DISTDIR/common
-readonly XBPS_SHUTILSDIR=$XBPS_COMMONDIR/xbps-src/shutils
-readonly XBPS_TRIGGERSDIR=$XBPS_SRCPKGDIR/xbps-triggers/files
-readonly XBPS_CROSSPFDIR=$XBPS_COMMONDIR/cross-profiles
-readonly XBPS_BUILDSTYLEDIR=$XBPS_COMMONDIR/build-style
-readonly XBPS_LIBEXECDIR=$XBPS_COMMONDIR/xbps-src/libexec
-readonly XBPS_BUILDHELPERDIR=$XBPS_COMMONDIR/build-helper
 
 readonly XBPS_TARGET="$1"
 if [ "$2" ]; then
@@ -684,12 +692,6 @@ if [ -z "$IN_CHROOT" ]; then
         setup_distfiles_mirror
     fi
 fi
-#
-# Read funcs from helpers
-#
-for f in ${XBPS_SHUTILSDIR}/*.sh; do
-    [ -r "$f" ] && . $f
-done
 
 reconfigure_base_chroot
 
