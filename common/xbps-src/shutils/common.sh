@@ -1,7 +1,18 @@
 # vim: set ts=4 sw=4 et:
 
+#
+# Check for required utilities in host system.
+#
 check_reqhost_utils() {
     local broken
+    # Required utilities in host system for the bootstrap target.
+    local REQHOST_UTILS_BOOTSTRAP="file objdump find make gawk bash sed gcc g++ gnat \
+        perl bsdtar gzip patch flock pkg-config"
+
+    # Required utilities in host.
+    local REQHOST_UTILS="xbps-install xbps-query xbps-rindex xbps-uhelper \
+        xbps-reconfigure xbps-remove xbps-create xbps-uchroot xbps-uunshare"
+
 
     [ "$IN_CHROOT" ] && return 0
 
