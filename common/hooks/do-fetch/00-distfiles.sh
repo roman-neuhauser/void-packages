@@ -169,14 +169,6 @@ try_mirrors() {
 		else
 			path="$mirror"
 		fi
-		if [ "$scheme" == "file" ]; then
-			# Skip file:// mirror locations (/some/where or file:///some/where)
-			# where the specified directory does not exist
-			if [ ! -d "$path" ]; then
-				msg_warn "$pkgver: mount point $path does not exist...\n"
-				continue
-			fi
-		fi
 		if [[ "$mirror" == *voidlinux* ]]; then
 			# For distfiles.voidlinux.* append the subdirectory
 			mirror="$mirror/$subdir"

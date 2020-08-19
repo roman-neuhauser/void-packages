@@ -250,7 +250,7 @@ setup_distfiles_mirror() {
         [ "$scheme" != "file" ] && continue
         if [ "$XBPS_CHROOT_CMD" == "uchroot" -o "$XBPS_CHROOT_CMD" == "proot" ]; then
             if [ ! -d "$path" ]; then
-                msg_warn "xbps-src: Invalid path in XBPS_DISTFILES_MIRROR ($mirror)\n"
+                msg_error "xbps-src: Nonexistent path in XBPS_DISTFILES_MIRROR ($mirror)\n"
                 continue
             fi
             mkdir -p "$XBPS_MASTERDIR/$path"
