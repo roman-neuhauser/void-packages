@@ -1,11 +1,5 @@
 # vim: set ts=4 sw=4 et:
 
-chroot_check() {
-    if [ -f $XBPS_MASTERDIR/.xbps_chroot_init -o "$XBPS_CHROOT_CMD" = "ethereal" ]; then
-        export CHROOT_READY=1
-    fi
-}
-
 install_base_chroot() {
     [ "$CHROOT_READY" ] && return
     if [ "$1" = "bootstrap" ]; then
@@ -31,7 +25,9 @@ install_base_chroot() {
 
     msg_normal "xbps-src: installed base-chroot successfully!\n"
     chroot_prepare $XBPS_TARGET_PKG || msg_error "xbps-src: failed to initialize chroot!\n"
-    chroot_check
+    if [ -f $XBPS_MASTERDIR/.xbps_chroot_init -o "$XBPS_CHROOT_CMD" = "ethereal" ]; then
+        export CHROOT_READY=1
+    fi
     chroot_handler clean
 }
 

@@ -513,8 +513,10 @@ if [ "$2" ]; then
     XBPS_TARGET_PKG="${2##*/}"
 fi
 
+if [ -f $XBPS_MASTERDIR/.xbps_chroot_init -o "$XBPS_CHROOT_CMD" = "ethereal" ]; then
+    export CHROOT_READY=1
+fi
 # Check for CHROOT_READY and set up XBPS_ARCH environment var for xbps.
-chroot_check
 check_native_arch
 
 # test if to use linux32 for 32-bit masterdirs in 64-bit environments
