@@ -31,20 +31,6 @@ install_base_chroot() {
     chroot_handler clean
 }
 
-reconfigure_base_chroot() {
-    local statefile="$XBPS_MASTERDIR/.xbps_chroot_configured"
-    local pkgs="glibc-locales ca-certificates"
-    [ -z "$IN_CHROOT" -o -e $statefile ] && return 0
-    # Reconfigure ca-certificates.
-    msg_normal "xbps-src: reconfiguring base-chroot...\n"
-    for f in ${pkgs}; do
-        if xbps-query -r $XBPS_MASTERDIR $f &>/dev/null; then
-            xbps-reconfigure -r $XBPS_MASTERDIR -f $f
-        fi
-    done
-    touch -f $statefile
-}
-
 update_base_chroot() {
     local keep_all_force=$1
     [ -z "$CHROOT_READY" ] && return

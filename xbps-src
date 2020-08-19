@@ -662,7 +662,15 @@ if [ -z "$IN_CHROOT" ]; then
     fi
 fi
 
-reconfigure_base_chroot
+[[ -z "$IN_CHROOT" || -e $XBPS_MASTERDIR/.xbps_chroot_configured ]] || {
+    msg_normal "xbps-src: reconfiguring base-chroot...\n"
+    for f in glibc-locales ca-certificates; do
+        if xbps-query -r $XBPS_MASTERDIR $f &>/dev/null; then
+            xbps-reconfigure -r $XBPS_MASTERDIR -f $f
+        fi
+    done
+    touch -f $XBPS_MASTERDIR/.xbps_chroot_configured
+}
 
 #
 # Main switch.
