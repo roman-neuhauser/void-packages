@@ -224,24 +224,6 @@ $(print_cross_targets)
 _EOF
 }
 
-check_native_arch() {
-    if [ "$CHROOT_READY" ]; then
-        if [ -s $XBPS_MASTERDIR/.xbps_chroot_init ]; then
-            export XBPS_ARCH=$(<$XBPS_MASTERDIR/.xbps_chroot_init)
-        else
-            export XBPS_ARCH=$(xbps-uhelper arch)
-        fi
-    else
-        LDD=$(ldd --version 2>&1|head -1)
-        if [[ $LDD == *musl* ]]; then
-            export XBPS_ARCH=${XBPS_MACHINE%-musl}-musl
-        else
-            # XBPS_ARCH == $(uname -m)
-            export XBPS_ARCH=$(uname -m)
-        fi
-    fi
-}
-
 masterdir_zap() {
     rm -rf "$XBPS_MASTERDIR"
     mkdir -p "$XBPS_MASTERDIR"
@@ -516,8 +498,22 @@ fi
 if [ -f $XBPS_MASTERDIR/.xbps_chroot_init -o "$XBPS_CHROOT_CMD" = "ethereal" ]; then
     export CHROOT_READY=1
 fi
-# Check for CHROOT_READY and set up XBPS_ARCH environment var for xbps.
-check_native_arch
+if [ "$CHROOT_READY" ]; then
+    if [ -s $XBPS_MASTERDIR/.xbps_chroot_init ]; then
+        export XBPS_ARCH=$(<$XBPS_MASTERDIR/.xbps_chroot_init)
+    else
+        export XBPS_ARCH=$(xbps-uhelper arch)
+    fi
+else
+    LDD=$(ldd --version 2>&1|head -1)
+    if [[ $LDD == *musl* ]]; then
+        export XBPS_ARCH=${XBPS_MACHINE%-musl}-musl
+    else
+        # XBPS_ARCH == $(uname -m)
+        export XBPS_ARCH=$(uname -m)
+    fi
+fi
+
 
 # test if to use linux32 for 32-bit masterdirs in 64-bit environments
 # x86_64, ppc64 (BE) and aarch64 are capable of this, others are not
