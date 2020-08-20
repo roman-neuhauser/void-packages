@@ -103,29 +103,6 @@ install_pkg_from_repos() {
 }
 
 #
-# Returns 0 if pkgpattern in $1 is installed and greater than current
-# installed package, otherwise 1.
-#
-check_installed_pkg() {
-    local pkg="$1" cross="$2" uhelper= pkgn= iver=
-
-    [ -z "$pkg" ] && return 2
-
-    pkgn="$($XBPS_UHELPER_CMD getpkgname ${pkg})"
-    [ -z "$pkgn" ] && return 2
-
-    uhelper=$XBPS_UHELPER_CMD
-    [[ $cross ]] && uhelper=$XBPS_UHELPER_XCMD
-    iver="$($uhelper version $pkgn)"
-    if [ $? -eq 0 -a -n "$iver" ]; then
-        $XBPS_CMPVER_CMD "${pkgn}-${iver}" "${pkg}"
-        [ $? -eq 0 -o $? -eq 1 ] && return 0
-    fi
-
-    return 1
-}
-
-#
 # Build all dependencies required to build and run.
 #
 install_pkg_deps() {
