@@ -6,15 +6,17 @@ source $XBPS_SHUTILSDIR/chroot.sh
 source $XBPS_SHUTILSDIR/cross.sh
 source $XBPS_SHUTILSDIR/pkgtarget.sh
 
-# base-chroot building on host
-# check for required host utils
-check_reqhost_utils bootstrap
-(
-    export XBPS_ARCH=$XBPS_MACHINE
-    export XBPS_SKIP_REMOTEREPOS=1
-    chroot_sync_repodata
-    $XBPS_LIBEXECDIR/build.sh \
-        base-chroot base-chroot $XBPS_TARGET || exit 1
-) || exit 1
-[ -d $XBPS_MASTERDIR ] && rm -rf $XBPS_MASTERDIR
+[[ $XBPS_TARGET == binary-bootstrap ]] || {
+    # base-chroot building on host
+    # check for required host utils
+    check_reqhost_utils bootstrap
+    (
+        export XBPS_ARCH=$XBPS_MACHINE
+        export XBPS_SKIP_REMOTEREPOS=1
+        chroot_sync_repodata
+        $XBPS_LIBEXECDIR/build.sh \
+            base-chroot base-chroot $XBPS_TARGET || exit 1
+    ) || exit 1
+    [ -d $XBPS_MASTERDIR ] && rm -rf $XBPS_MASTERDIR
+}
 install_base_chroot ${XBPS_TARGET_PKG:=$XBPS_MACHINE}

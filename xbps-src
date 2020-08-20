@@ -684,7 +684,10 @@ case "$XBPS_TARGET" in
         echo $value
         ;;
     binary-bootstrap) ;&
-    bootstrap) ;&
+    bootstrap)
+        shift
+        $XBPS_LIBEXECDIR/bootstrap "$@"
+        ;;
     bootstrap-update) ;&
     chroot) ;&
     clean) ;&
