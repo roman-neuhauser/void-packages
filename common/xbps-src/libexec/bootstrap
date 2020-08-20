@@ -42,4 +42,13 @@ if [ -f $XBPS_MASTERDIR/.xbps_chroot_init -o "$XBPS_CHROOT_CMD" = "ethereal" ]; 
     export CHROOT_READY=1
 fi
 
+msg_normal "xbps-src: reconfiguring base-chroot...\n"
+for f in glibc-locales ca-certificates; do
+    if xbps-query -r $XBPS_MASTERDIR $f &>/dev/null; then
+        $XBPS_COMMONDIR/chroot-style/${XBPS_CHROOT_CMD:=uunshare}.sh \
+            $XBPS_MASTERDIR $XBPS_DISTDIR "$XBPS_HOSTDIR" "$XBPS_CHROOT_CMD_ARGS" \
+            xbps-reconfigure -f $f
+    fi
+done
+
 chroot_handler clean
