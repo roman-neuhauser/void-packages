@@ -70,7 +70,7 @@ chroot_prepare() {
         cp -f /usr/share/zoneinfo/UTC $XBPS_MASTERDIR/etc/localtime
     fi
 
-    for f in dev sys proc host boot; do
+    for f in dev sys proc host boot void-packages; do
         [ ! -d $XBPS_MASTERDIR/$f ] && mkdir -p $XBPS_MASTERDIR/$f
     done
 
@@ -108,9 +108,6 @@ chroot_handler() {
 
     if [ -n "$IN_CHROOT" -o -z "$CHROOT_READY" ]; then
         return 0
-    fi
-    if [ ! -d $XBPS_MASTERDIR/void-packages ]; then
-        mkdir -p $XBPS_MASTERDIR/void-packages
     fi
 
     case "$action" in
