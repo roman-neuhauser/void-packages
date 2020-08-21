@@ -382,6 +382,16 @@ done
 
 check_reqhost_utils
 
+# Try using chroot-git then git from the host system
+if command -v chroot-git &>/dev/null; then
+    export XBPS_GIT_CMD=$(command -v chroot-git)
+elif command -v git &>/dev/null; then
+    export XBPS_GIT_CMD=$(command -v git)
+else
+    echo "neither chroot-git or git are available in your system!" 1>&2
+    exit 1
+fi
+
 # Read settings from config file
 [ -s "$XBPS_CONFIG_FILE" ] && . $XBPS_CONFIG_FILE &>/dev/null
 
@@ -422,34 +432,6 @@ fi
 declare -rx XBPS_DESTDIR=$XBPS_MASTERDIR/destdir
 declare -rx XBPS_BUILDDIR=$XBPS_MASTERDIR/builddir
 
-# If pkg options were set in config(s), merge them with command line
-if [ -n "$XBPS_ARG_PKG_OPTIONS" ]; then
-    if [ -n "$XBPS_PKG_OPTIONS" ]; then
-        export XBPS_PKG_OPTIONS+=",$XBPS_ARG_PKG_OPTIONS"
-    else
-        export XBPS_PKG_OPTIONS="$XBPS_ARG_PKG_OPTIONS"
-    fi
-fi
-
-for d in $XBPS_MASTERDIR $XBPS_HOSTDIR $XBPS_DESTDIR $XBPS_BUILDDIR; do
-    [[ -d $d ]] || mkdir -p $d
-done
-
-if [ -d "$XBPS_MASTERDIR" -a ! -w "$XBPS_MASTERDIR" ]; then
-    echo "ERROR: can't write to masterdir $XBPS_MASTERDIR." 1>&2
-    exit 1
-fi
-
-# Try using chroot-git then git from the host system
-if command -v chroot-git &>/dev/null; then
-    export XBPS_GIT_CMD=$(command -v chroot-git)
-elif command -v git &>/dev/null; then
-    export XBPS_GIT_CMD=$(command -v git)
-else
-    echo "neither chroot-git or git are available in your system!" 1>&2
-    exit 1
-fi
-
 declare -x XBPS_REPOSITORY=$XBPS_HOSTDIR/binpkgs
 declare -rx XBPS_SRCDISTDIR=$XBPS_HOSTDIR/sources
 
@@ -466,6 +448,24 @@ if [ -z "$XBPS_ALT_REPOSITORY" ]; then
 else
     XBPS_REPOSITORY="${XBPS_REPOSITORY}/${XBPS_ALT_REPOSITORY}"
 fi
+
+# If pkg options were set in config(s), merge them with command line
+if [ -n "$XBPS_ARG_PKG_OPTIONS" ]; then
+    if [ -n "$XBPS_PKG_OPTIONS" ]; then
+        export XBPS_PKG_OPTIONS+=",$XBPS_ARG_PKG_OPTIONS"
+    else
+        export XBPS_PKG_OPTIONS="$XBPS_ARG_PKG_OPTIONS"
+    fi
+fi
+
+if [ -d "$XBPS_MASTERDIR" -a ! -w "$XBPS_MASTERDIR" ]; then
+    echo "ERROR: can't write to masterdir $XBPS_MASTERDIR." 1>&2
+    exit 1
+fi
+
+for d in $XBPS_MASTERDIR $XBPS_HOSTDIR $XBPS_DESTDIR $XBPS_BUILDDIR $XBPS_REPOSITORY $XBPS_SRCDISTDIR; do
+    mkdir -p $d
+done
 
 declare -rx XBPS_TARGET="$1"
 if [ "$2" ]; then
@@ -566,14 +566,6 @@ export XBPS_SHUTILSDIR XBPS_CROSSPFDIR XBPS_TRIGGERSDIR \
     XBPS_LIBEXECDIR XBPS_DISTDIR XBPS_DISTFILES_MIRROR XBPS_ALLOW_RESTRICTED \
     XBPS_TARGET_PKG \
     XBPS_USE_GIT_COMMIT_DATE XBPS_PKG_COMPTYPE XBPS_REPO_COMPTYPE XBPS_BUILDHELPERDIR
-
-for i in REPOSITORY SRCDISTDIR; do
-    eval val="\$XBPS_$i"
-    if [ ! -d "$val" ]; then
-        mkdir -p $val
-    fi
-    unset val
-done
 
 # A temporary masterdir requires xbps-uchroot(1) and -O to use overlayfs
 # on tmpfs (available with xbps-0.45).
