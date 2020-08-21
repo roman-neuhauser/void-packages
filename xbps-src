@@ -404,8 +404,8 @@ export XBPS_BUILD_ONLY_ONE_PKG XBPS_SKIP_REMOTEREPOS XBPS_BUILD_FORCEMODE \
 
 # The masterdir/hostdir variables are forced and readonly in chroot
 if [ -z "$IN_CHROOT" ]; then
-    [ -n "$XBPS_ARG_MASTERDIR" ] && XBPS_MASTERDIR="$XBPS_ARG_MASTERDIR"
-    [ -n "$XBPS_ARG_HOSTDIR" ] && XBPS_HOSTDIR="$XBPS_ARG_HOSTDIR"
+    : ${XBPS_MASTERDIR:=${XBPS_ARG_MASTERDIR:-$XBPS_DISTDIR/masterdir}}
+    : ${XBPS_HOSTDIR:=${XBPS_ARG_HOSTDIR:-$XBPS_DISTDIR/hostdir}}
 
     # Sanitize masterdir/hostdir once set for real (resolve links)
     export XBPS_MASTERDIR="$(readlink -f $XBPS_MASTERDIR 2>/dev/null)"
@@ -428,13 +428,9 @@ if [ -z "$IN_CHROOT" -a "$UID" -eq 0 -a -z "$XBPS_ALLOW_CHROOT_BREAKOUT" ]; then
     exit 1
 fi
 
-# if XBPS_MASTERDIR unset, defaults to $XBPS_DISTDIR/masterdir.
-: ${XBPS_MASTERDIR:=$XBPS_DISTDIR/masterdir}
-[ ! -d $XBPS_MASTERDIR ] &&  mkdir -p $XBPS_MASTERDIR
-
-# if XBPS_HOSTDIR unset, defaults to $XBPS_DISTDIR/hostdir.
-: ${XBPS_HOSTDIR:=$XBPS_DISTDIR/hostdir}
-[ ! -d $XBPS_HOSTDIR ] && mkdir -p $XBPS_HOSTDIR
+for d in $XBPS_MASTERDIR $XBPS_HOSTDIR; do
+    [[ -d $d ]] || mkdir -p $d
+done
 
 if [ -d "$XBPS_MASTERDIR" -a ! -w "$XBPS_MASTERDIR" ]; then
     echo "ERROR: can't write to masterdir $XBPS_MASTERDIR." 1>&2
@@ -712,7 +708,7 @@ case "$XBPS_TARGET" in
         ;;
     *)
         msg_red "xbps-src: invalid target $XBPS_TARGET.\n"
-        usage && exit 1
+        exit 1
         ;;
 esac
 
