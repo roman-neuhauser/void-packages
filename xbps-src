@@ -313,6 +313,13 @@ shift $(($OPTIND - 1))
 
 [ $# -eq 0 ] && usage && exit 1
 
+# Forbid root unless XBPS_ALLOW_CHROOT_BREAKOUT is set
+# (for travis CI).
+if [ -z "$IN_CHROOT" -a "$UID" -eq 0 -a -z "$XBPS_ALLOW_CHROOT_BREAKOUT" ]; then
+    echo "ERROR: xbps-src cannot be used as root." 1>&2
+    exit 1
+fi
+
 # Check if stdout is a tty; if false disable colors.
 test -t 1 || export NOCOLORS=1
 # http://no-color.org
@@ -422,13 +429,6 @@ if [ -n "$XBPS_ARG_PKG_OPTIONS" ]; then
     else
         export XBPS_PKG_OPTIONS="$XBPS_ARG_PKG_OPTIONS"
     fi
-fi
-
-# Forbid root unless XBPS_ALLOW_CHROOT_BREAKOUT is set
-# (for travis CI).
-if [ -z "$IN_CHROOT" -a "$UID" -eq 0 -a -z "$XBPS_ALLOW_CHROOT_BREAKOUT" ]; then
-    echo "ERROR: xbps-src cannot be used as root." 1>&2
-    exit 1
 fi
 
 for d in $XBPS_MASTERDIR $XBPS_HOSTDIR $XBPS_DESTDIR $XBPS_BUILDDIR; do
