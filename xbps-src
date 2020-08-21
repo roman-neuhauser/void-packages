@@ -447,13 +447,8 @@ else
     exit 1
 fi
 
-if [ -n "$XBPS_HOSTDIR" ]; then
-    export XBPS_REPOSITORY=$XBPS_HOSTDIR/binpkgs
-    readonly XBPS_SRCDISTDIR=$XBPS_HOSTDIR/sources
-else
-    export XBPS_REPOSITORY=$XBPS_MASTERDIR/host/binpkgs
-    readonly XBPS_SRCDISTDIR=$XBPS_MASTERDIR/host/sources
-fi
+declare -x XBPS_REPOSITORY=$XBPS_HOSTDIR/binpkgs
+declare -rx XBPS_SRCDISTDIR=$XBPS_HOSTDIR/sources
 
 # Set XBPS_REPOSITORY to our current branch.
 if [ -z "$XBPS_ALT_REPOSITORY" ]; then
@@ -462,11 +457,11 @@ if [ -z "$XBPS_ALT_REPOSITORY" ]; then
     _gitbranch="$($XBPS_GIT_CMD symbolic-ref --short HEAD 2>/dev/null)"
     if [ "${_gitbranch}" -a "${_gitbranch}" != "master" ]; then
         export XBPS_ALT_REPOSITORY="${_gitbranch}"
-        export XBPS_REPOSITORY="${XBPS_REPOSITORY}/${_gitbranch}"
+        XBPS_REPOSITORY="${XBPS_REPOSITORY}/${_gitbranch}"
      fi
      popd &>/dev/null
 else
-    export XBPS_REPOSITORY="${XBPS_REPOSITORY}/${XBPS_ALT_REPOSITORY}"
+    XBPS_REPOSITORY="${XBPS_REPOSITORY}/${XBPS_ALT_REPOSITORY}"
 fi
 
 declare -rx XBPS_TARGET="$1"
@@ -559,7 +554,7 @@ readonly XBPS_CMPVER_CMD="xbps-uhelper cmpver"
 
 export XBPS_SHUTILSDIR XBPS_CROSSPFDIR XBPS_TRIGGERSDIR \
     XBPS_SRCPKGDIR XBPS_COMMONDIR XBPS_BUILDDIR \
-    XBPS_REPOSITORY XBPS_ALT_REPOSITORY XBPS_SRCDISTDIR XBPS_DIGEST_CMD \
+    XBPS_ALT_REPOSITORY XBPS_DIGEST_CMD \
     XBPS_UHELPER_CMD XBPS_INSTALL_CMD XBPS_QUERY_CMD XBPS_BUILD_ONLY_ONE_PKG \
     XBPS_RINDEX_CMD XBPS_RECONFIGURE_CMD XBPS_REMOVE_CMD XBPS_CHECKVERS_CMD \
     XBPS_CMPVER_CMD XBPS_FETCH_CMD XBPS_VERSION XBPS_BUILDSTYLEDIR \
