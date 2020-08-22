@@ -470,13 +470,10 @@ declare -rx XBPS_SRCDISTDIR=$XBPS_HOSTDIR/sources
 
 # Set XBPS_REPOSITORY to our current branch.
 if [ -z "$XBPS_ALT_REPOSITORY" ]; then
-    pushd "$PWD" &>/dev/null
-    cd $XBPS_DISTDIR
-    _gitbranch="$($XBPS_GIT_CMD symbolic-ref --short HEAD 2>/dev/null)"
+    _gitbranch="$($XBPS_GIT_CMD -C $XBPS_DISTDIR symbolic-ref --short HEAD 2>/dev/null)"
     if [ "${_gitbranch}" -a "${_gitbranch}" != "master" ]; then
         export XBPS_ALT_REPOSITORY="${_gitbranch}"
      fi
-     popd &>/dev/null
 fi
 XBPS_REPOSITORY="${XBPS_REPOSITORY}/${XBPS_ALT_REPOSITORY}"
 
