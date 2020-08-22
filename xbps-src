@@ -475,12 +475,10 @@ if [ -z "$XBPS_ALT_REPOSITORY" ]; then
     _gitbranch="$($XBPS_GIT_CMD symbolic-ref --short HEAD 2>/dev/null)"
     if [ "${_gitbranch}" -a "${_gitbranch}" != "master" ]; then
         export XBPS_ALT_REPOSITORY="${_gitbranch}"
-        XBPS_REPOSITORY="${XBPS_REPOSITORY}/${_gitbranch}"
      fi
      popd &>/dev/null
-else
-    XBPS_REPOSITORY="${XBPS_REPOSITORY}/${XBPS_ALT_REPOSITORY}"
 fi
+XBPS_REPOSITORY="${XBPS_REPOSITORY}/${XBPS_ALT_REPOSITORY}"
 
 # If pkg options were set in config(s), merge them with command line
 if [ -n "$XBPS_ARG_PKG_OPTIONS" ]; then
