@@ -337,8 +337,6 @@ umask 022
 if [ "$IN_CHROOT" ]; then
     readonly XBPS_CONFIG_FILE=/etc/xbps/xbps-src.conf
     readonly XBPS_DISTDIR=/void-packages
-    readonly XBPS_MASTERDIR=/
-    readonly XBPS_HOSTDIR=/host
 else
     _distdir="$(readlink -f ${0%/*})"
     if [ "${_distdir}" = "." ]; then
@@ -432,13 +430,11 @@ export \
     XBPS_DISTDIR \
     XBPS_DISTFILES_MIRROR \
     XBPS_FFLAGS \
-    XBPS_HOSTDIR \
     XBPS_INFORMATIVE_RUN \
     XBPS_KEEP_ALL \
     XBPS_LDFLAGS \
     XBPS_MACHINE \
     XBPS_MAKEJOBS \
-    XBPS_MASTERDIR \
     XBPS_PKG_COMPTYPE \
     XBPS_PKG_OPTIONS \
     XBPS_PRINT_VARIABLES \
@@ -461,6 +457,9 @@ if [ -z "$IN_CHROOT" ]; then
     # Sanitize masterdir/hostdir once set for real (resolve links)
     export XBPS_MASTERDIR="$(readlink -f $XBPS_MASTERDIR 2>/dev/null)"
     export XBPS_HOSTDIR="$(readlink -f $XBPS_HOSTDIR 2>/dev/null)"
+else
+    declare -rx XBPS_MASTERDIR=/
+    declare -rx XBPS_HOSTDIR=/host
 fi
 
 declare -rx XBPS_DESTDIR=$XBPS_MASTERDIR/destdir
