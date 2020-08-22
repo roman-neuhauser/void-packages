@@ -495,11 +495,6 @@ for d in $XBPS_MASTERDIR $XBPS_HOSTDIR $XBPS_DESTDIR $XBPS_BUILDDIR $XBPS_REPOSI
     mkdir -p $d
 done
 
-declare -rx XBPS_TARGET="$1"
-if [ "$2" ]; then
-    XBPS_TARGET_PKG="${2##*/}"
-fi
-
 if [ -f $XBPS_MASTERDIR/.xbps_chroot_init -o "$XBPS_CHROOT_CMD" = "ethereal" ]; then
     export CHROOT_READY=1
 fi
@@ -581,6 +576,7 @@ if [ -z "$IN_CHROOT" -a -n "$XBPS_TEMP_MASTERDIR" ]; then
     export XBPS_CHROOT_CMD="uchroot"
     export XBPS_CHROOT_CMD_ARGS+=" -O"
 fi
+
 #
 # Sanitize PATH.
 #
@@ -615,6 +611,11 @@ if [ "$XBPS_DISTCC" ]; then
     export DISTCC_DIR="$XBPS_HOSTDIR/distcc-${XBPS_CROSS_BUILD:-${XBPS_MACHINE}}"
     export DISTCC_HOSTS="$XBPS_DISTCC_HOSTS"
     mkdir -p $DISTCC_DIR
+fi
+
+declare -rx XBPS_TARGET="$1"
+if [ "$2" ]; then
+    XBPS_TARGET_PKG="${2##*/}"
 fi
 
 case "$XBPS_TARGET" in
