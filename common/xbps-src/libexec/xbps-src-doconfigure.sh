@@ -14,18 +14,18 @@ fi
 PKGNAME="$1"
 XBPS_CROSS_BUILD="$2"
 
-for f in $XBPS_SHUTILSDIR/*.sh; do
-    . $f
-done
-
-setup_pkg "$PKGNAME" $XBPS_CROSS_BUILD
-
-XBPS_CONFIGURE_DONE="${XBPS_STATEDIR}/${sourcepkg}_${XBPS_CROSS_BUILD}_configure_done"
+XBPS_CONFIGURE_DONE="${XBPS_STATEDIR}/${PKGNAME}_${XBPS_CROSS_BUILD}_configure_done"
 
 if [ -f $XBPS_CONFIGURE_DONE -a -z "$XBPS_BUILD_FORCEMODE" ] ||
    [ -f $XBPS_CONFIGURE_DONE -a -n "$XBPS_BUILD_FORCEMODE" -a $XBPS_TARGET != "configure" ]; then
     exit 0
 fi
+
+for f in $XBPS_SHUTILSDIR/*.sh; do
+    . $f
+done
+
+setup_pkg "$PKGNAME" $XBPS_CROSS_BUILD
 
 for f in $XBPS_COMMONDIR/environment/configure/*.sh; do
     source_file "$f"

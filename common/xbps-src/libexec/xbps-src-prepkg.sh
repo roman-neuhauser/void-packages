@@ -14,6 +14,12 @@ fi
 PKGNAME="$1"
 XBPS_CROSS_BUILD="$2"
 
+XBPS_PREPKG_DONE="${XBPS_STATEDIR}/${PKGNAME}_${XBPS_CROSS_BUILD}_prepkg_done"
+
+if [ -z "$XBPS_BUILD_FORCEMODE" -a -f $XBPS_PREPKG_DONE ]; then
+    exit 0
+fi
+
 for f in $XBPS_SHUTILSDIR/*.sh; do
     . $f
 done
@@ -24,12 +30,6 @@ for f in $XBPS_COMMONDIR/environment/install/*.sh; do
     source_file "$f"
 done
 
-
-XBPS_PREPKG_DONE="${XBPS_STATEDIR}/${PKGNAME}_${XBPS_CROSS_BUILD}_prepkg_done"
-
-if [ -z "$XBPS_BUILD_FORCEMODE" -a -f $XBPS_PREPKG_DONE ]; then
-    exit 0
-fi
 
 # If it's a subpkg execute the pkg_install() function.
 if [ "$sourcepkg" != "$PKGNAME" ]; then

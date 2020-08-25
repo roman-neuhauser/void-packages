@@ -14,13 +14,13 @@ fi
 PKGNAME="$1"
 XBPS_CROSS_BUILD="$2"
 
+XBPS_CHECK_DONE="${XBPS_STATEDIR}/${PKGNAME}_${XBPS_CROSS_BUILD}_check_done"
+
 for f in $XBPS_SHUTILSDIR/*.sh; do
     . $f
 done
 
 setup_pkg "$PKGNAME" $XBPS_CROSS_BUILD
-
-XBPS_CHECK_DONE="${XBPS_STATEDIR}/${sourcepkg}_${XBPS_CROSS_BUILD}_check_done"
 
 if [ -n "$XBPS_CROSS_BUILD" ]; then
     msg_normal "${pkgname}-${version}_${revision}: skipping check (cross build for $XBPS_CROSS_BUILD) ...\n"

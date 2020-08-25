@@ -14,17 +14,17 @@ fi
 PKGNAME="$1"
 XBPS_CROSS_BUILD="$2"
 
+XBPS_PATCH_DONE="${XBPS_STATEDIR}/${PKGNAME}_${XBPS_CROSS_BUILD}_patch_done"
+
+if [ -f $XBPS_PATCH_DONE ]; then
+    exit 0
+fi
+
 for f in $XBPS_SHUTILSDIR/*.sh; do
     . $f
 done
 
 setup_pkg "$PKGNAME" $XBPS_CROSS_BUILD
-
-XBPS_PATCH_DONE="${XBPS_STATEDIR}/${sourcepkg}_${XBPS_CROSS_BUILD}_patch_done"
-
-if [ -f $XBPS_PATCH_DONE ]; then
-    exit 0
-fi
 
 for f in $XBPS_COMMONDIR/environment/patch/*.sh; do
     source_file "$f"
